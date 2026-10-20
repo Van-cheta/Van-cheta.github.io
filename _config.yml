@@ -1,0 +1,15 @@
+
+title: "Vanct's Blog"
+description: "Research, Notes and Life"
+url: "https://van-cheta.github.io"
+baseurl: ""
+
+author: "Vanct"
+
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+timezone: Asia/Shanghai
+
+exclude:
+  - README.md
