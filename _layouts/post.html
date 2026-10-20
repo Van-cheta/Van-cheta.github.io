@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <p class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y 年 %-m 月 %-d 日' }}</time>
+      {% if page.tags.size > 0 %}
+        <span class="post-tags">{% for tag in page.tags %}<span>#{{ tag | escape }}</span>{% endfor %}</span>
+      {% endif %}
+    </p>
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}<p class="post-description">{{ page.description | escape }}</p>{% endif %}
+  </header>
+  <div class="prose">
+    {{ content }}
+  </div>
+  <footer class="post-footer">
+    <a href="{{ '/' | relative_url }}">← 返回首页</a>
+  </footer>
+</article>
