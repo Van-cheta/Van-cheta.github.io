@@ -78,6 +78,9 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-ra
 .prose li + li { margin-top: 6px; }
 .prose a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
 .prose img, .prose video { display: block; max-width: 100%; height: auto; margin: 26px auto; border-radius: 3px; }
+.prose figure { margin: 26px 0; }
+.prose figure img { margin: 0 auto; }
+.prose figcaption { margin-top: 8px; color: var(--muted); font-size: 14px; line-height: 1.6; text-align: center; }
 .prose blockquote { margin: 26px 0; padding: 1px 22px; border-left: 3px solid #dce0e5; color: var(--muted); }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0; }
 .prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 14px; margin-block: 24px; }
