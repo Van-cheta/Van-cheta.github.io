@@ -1,11 +1,56 @@
+/* 在根节点统一插值配色，子元素直接使用结果，避免继承颜色重复渐变。 */
+@property --background { syntax: "<color>"; inherits: true; initial-value: #f7f3ea; }
+@property --surface { syntax: "<color>"; inherits: true; initial-value: #f1ece1; }
+@property --text { syntax: "<color>"; inherits: true; initial-value: #37342f; }
+@property --heading { syntax: "<color>"; inherits: true; initial-value: #25231f; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #716b61; }
+@property --line { syntax: "<color>"; inherits: true; initial-value: #ddd6c8; }
+@property --soft { syntax: "<color>"; inherits: true; initial-value: #ece6d9; }
+@property --link { syntax: "<color>"; inherits: true; initial-value: #3f6187; }
+@property --selection { syntax: "<color>"; inherits: true; initial-value: #dbe3e8; }
+@property --syntax-comment { syntax: "<color>"; inherits: true; initial-value: #746e65; }
+@property --syntax-keyword { syntax: "<color>"; inherits: true; initial-value: #8451a1; }
+@property --syntax-string { syntax: "<color>"; inherits: true; initial-value: #32684a; }
+@property --syntax-number { syntax: "<color>"; inherits: true; initial-value: #945320; }
+@property --syntax-error { syntax: "<color>"; inherits: true; initial-value: #a53434; }
+
 :root {
   color-scheme: light;
-  --text: #30343b;
-  --heading: #202329;
-  --muted: #70757d;
-  --line: #eceef0;
-  --soft: #f6f7f8;
-  --link: #315f91;
+  /* 主题渐变：时长越大越慢，1000ms = 1 秒。 */
+  --theme-transition-duration: 450ms;
+  --theme-transition-easing: ease-in-out;
+  --background: #f7f3ea;
+  --surface: #f1ece1;
+  --text: #37342f;
+  --heading: #25231f;
+  --muted: #716b61;
+  --line: #ddd6c8;
+  --soft: #ece6d9;
+  --link: #3f6187;
+  --selection: #dbe3e8;
+  --syntax-comment: #746e65;
+  --syntax-keyword: #8451a1;
+  --syntax-string: #32684a;
+  --syntax-number: #945320;
+  --syntax-error: #a53434;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #1c1e22;
+  --surface: #25282e;
+  --text: #d8d6d0;
+  --heading: #f2efe7;
+  --muted: #aaa69e;
+  --line: #3a3d44;
+  --soft: #2b2e34;
+  --link: #9dbfe8;
+  --selection: #3e5067;
+  --syntax-comment: #aaa49b;
+  --syntax-keyword: #c7a1e7;
+  --syntax-string: #a3c99f;
+  --syntax-number: #e5b184;
+  --syntax-error: #f49898;
 }
 
 * { box-sizing: border-box; }
@@ -14,7 +59,7 @@ html { scrollbar-gutter: stable; }
 
 body {
   margin: 0;
-  background: #fff;
+  background: var(--background);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 16px;
@@ -26,7 +71,7 @@ body {
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--link); }
 a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-radius: 2px; }
-::selection { background: #e5edf5; }
+::selection { background: var(--selection); }
 
 .site-shell {
   width: 100%;
@@ -50,6 +95,14 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-ra
 }
 
 .site-title { color: var(--heading); font-size: 25px; font-weight: 700; letter-spacing: -0.7px; line-height: 1.4; }
+.site-brand { display: flex; align-items: center; gap: 12px; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 36px; height: 36px; padding: 8px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+.theme-toggle[hidden] { display: none; }
+.theme-toggle:hover { color: var(--heading); background: var(--soft); }
+.theme-toggle:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+.theme-toggle svg { display: block; width: 18px; height: 18px; }
+.theme-toggle .theme-sun, [data-theme="dark"] .theme-toggle .theme-moon { display: none; }
+[data-theme="dark"] .theme-toggle .theme-sun { display: block; }
 .site-nav { display: flex; align-items: center; gap: 25px; font-size: 14px; color: var(--muted); }
 .site-nav a { padding-block: 7px; }
 .site-nav a[aria-current="page"] { color: var(--heading); text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px; }
@@ -81,7 +134,7 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-ra
 .prose figure { margin: 26px 0; }
 .prose figure img { margin: 0 auto; }
 .prose figcaption { margin-top: 8px; color: var(--muted); font-size: 14px; line-height: 1.6; text-align: center; }
-.prose blockquote { margin: 26px 0; padding: 1px 22px; border-left: 3px solid #dce0e5; color: var(--muted); }
+.prose blockquote { margin: 26px 0; padding: 1px 22px; border-left: 3px solid var(--line); color: var(--muted); }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0; }
 .prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 14px; margin-block: 24px; }
 .prose th, .prose td { padding: 10px 15px; border: 1px solid var(--line); text-align: left; }
@@ -90,12 +143,12 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-ra
 .prose pre { overflow-x: auto; padding: 20px 22px; border-radius: 4px; background: var(--soft); line-height: 1.65; overflow-wrap: normal; tab-size: 4; }
 .prose pre code { padding: 0; background: none; font-size: 13px; }
 .prose mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; padding-block: 6px; }
-.highlight .c, .highlight .c1, .highlight .cm { color: #6b7280; font-style: italic; }
-.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr { color: #8451a1; }
-.highlight .s, .highlight .s1, .highlight .s2, .highlight .se { color: #32684a; }
-.highlight .nf, .highlight .nc, .highlight .nb { color: #315f91; }
-.highlight .m, .highlight .mi, .highlight .mf { color: #945320; }
-.highlight .err { color: #a53434; }
+.highlight .c, .highlight .c1, .highlight .cm { color: var(--syntax-comment); font-style: italic; }
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr { color: var(--syntax-keyword); }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .se { color: var(--syntax-string); }
+.highlight .nf, .highlight .nc, .highlight .nb { color: var(--link); }
+.highlight .m, .highlight .mi, .highlight .mf { color: var(--syntax-number); }
+.highlight .err { color: var(--syntax-error); }
 
 .archive-year + .archive-year { margin-top: 38px; }
 .archive-year h2 { font-size: 20px; }
@@ -105,8 +158,30 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-ra
 .archive-list a { color: var(--text); text-decoration: none; }
 .archive-list a:hover { color: var(--link); }
 
+.social-links { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
+.social-links .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 10px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--muted); text-decoration: none; cursor: pointer; }
+.social-links .social-icon:hover { color: var(--link); background: var(--soft); border-color: var(--link); }
+.social-links .social-icon:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+.social-icon:disabled { cursor: wait; }
+.social-icon svg { display: block; width: 22px; height: 22px; flex-shrink: 0; }
+.prose .social-status { min-height: 1.6em; margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.social-email-fallback { max-width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--soft); color: var(--text); font: inherit; }
+
+/* 只在根节点过渡已注册的颜色变量，所有颜色使用同一时长和曲线。
+   子元素不再单独过渡，SVG 的 currentColor 也直接跟随同步结果。 */
+:root.theme-animated {
+  transition-property: --background, --surface, --text, --heading, --muted, --line, --soft, --link, --selection, --syntax-comment, --syntax-keyword, --syntax-string, --syntax-number, --syntax-error;
+  transition-duration: var(--theme-transition-duration);
+  transition-timing-function: var(--theme-transition-easing);
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --theme-transition-duration: 0ms; }
+}
+
 .site-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; padding: 24px 0 34px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-.skip-link { position: fixed; top: -100px; left: 16px; z-index: 10; padding: 8px 15px; background: #fff; border: 1px solid var(--line); }
+.skip-link { position: fixed; top: -100px; left: 16px; z-index: 10; padding: 8px 15px; background: var(--background); border: 1px solid var(--line); }
 .skip-link:focus { top: 12px; }
 
 @media (max-width: 600px) {
@@ -122,7 +197,8 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; border-ra
 }
 
 @media print {
-  .site-nav, .skip-link, .post-footer { display: none; }
+  :root, :root[data-theme="dark"] { color-scheme: light; --background: #fff; --text: #222; --heading: #111; --muted: #555; --line: #ddd; --soft: #f5f5f5; --link: #315f91; }
+  .site-nav, .skip-link, .post-footer, .theme-toggle { display: none; }
   .site-shell { max-width: none; min-height: 0; padding: 0; }
   .site-main { padding-block: 25px; }
   .site-header { padding-top: 0; }
